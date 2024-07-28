@@ -35,6 +35,27 @@ document.addEventListener('DOMContentLoaded', function() {
         taskInput.value = "";
     }
 
+    if (save) {
+        saveTaskToStorage(taskText); // Save task to Local Storage
+    }
+}
+
+function saveTaskToStorage(taskText) {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    storedTasks.push(taskText);
+    localStorage.setItem('tasks', JSON.stringify(storedTasks));
+}
+
+function removeTaskFromStorage(taskText) {
+    let storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    storedTasks = storedTasks.filter(task => task !== taskText);
+    localStorage.setItem('tasks', JSON.stringify(storedTasks));
+}
+
+function loadTasks() {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    storedTasks.forEach(taskText => addTask(taskText, false)); // 'false' prevents re-saving the task
+}
     // Add event listener to the add button
     addButton.addEventListener('click', addTask);
 
